@@ -1,1 +1,3 @@
-# IN3062_CW
+#IN3062_CW
+Using the Stroke Dataset
+**https://www.kaggle.com/fedesoriano/stroke-prediction-dataset**
