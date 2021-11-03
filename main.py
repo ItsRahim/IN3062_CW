@@ -16,4 +16,10 @@ df = df.fillna(df.median())
 df = df.drop(df[df.smoking_status == 'Unknown'].index)
 
 # converting df to csv to check if data is clean
-df.to_csv('stroke_new.csv', encoding='utf-8', index=False)
+df.to_csv('stroke_clean_data.csv', encoding='utf-8', index=False)
+
+# quick summary of the data
+stats = df.describe()
+print(stats)
+
+# TODO: Split data into Stroke -> Gender -> Smoke THEN Convert into CSV files
