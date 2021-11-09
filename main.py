@@ -22,4 +22,9 @@ df.to_csv('stroke_clean_data.csv', encoding='utf-8', index=False)
 stats = df.describe()
 print(stats)
 
-# TODO: Split data into Stroke -> Gender -> Smoke THEN Convert into CSV files
+strokePatient = pd.DataFrame(df.loc[df['stroke'] == 1])
+non_strokePatient = pd.DataFrame(df.loc[df['stroke'] == 0])
+
+strokePatient.to_csv("_strokePatient.csv", encoding='utf-8', index=False)
+non_strokePatient.to_csv("_non_strokePatient.csv",
+                         encoding='utf-8', index=False)
