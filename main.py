@@ -55,8 +55,6 @@ ax0.text(0, -0.1, 'Stroke Pecentage ',
 ax1.text(0, -0.1, 'No Stroke Percentage',
          {'font': 'serif', 'color': "#364F6B", 'size': 20}, alpha=0.9)
 
-
-# !Fix Error
 ax0.set_xticklabels(['Smoke', 'Quit', 'Never'])
 ax1.set_xticklabels(['Smoke', 'Quit', 'Never'])
 
@@ -97,10 +95,11 @@ strokePatient.to_csv("_strokePatient.csv", encoding='utf-8', index=False)
 non_strokePatient.to_csv("_non_strokePatient.csv",
                          encoding='utf-8', index=False)
 """
-
+# TODO: Complete training for machine. Try Linear Regression, K Cluster, RandomForest
+# TODO: Train Using all above and use most accurate one
 X = df[['gender', 'age', 'hypertension',
         'heart_disease', 'ever_married', 'avg_glucose_level', 'bmi', 'smoking_status']]
 y = df['stroke']
+
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, train_size=0.33, random_state=42)
-print(X.head())
