@@ -2200,7 +2200,6 @@ gender,age,hypertension,heart_disease,ever_married,avg_glucose_level,bmi,smoking
 1,45.0,0,0,1,82.02,41.8,smokes,0
 1,62.0,1,0,1,78.02,36.4,never smoked,0
 1,72.0,0,0,1,65.12,28.3,never smoked,0
-Other,26.0,0,0,0,143.33,22.4,formerly smoked,0
 1,31.0,0,0,1,88.2,22.7,never smoked,0
 0,22.0,0,0,0,86.53,20.8,never smoked,0
 1,57.0,1,0,1,63.72,35.8,smokes,0
