@@ -8,13 +8,15 @@ from matplotlib.colors import LinearSegmentedColormap
 df = pd.read_csv("stroke.csv")
 
 # removing unneccesary columns
-to_drop = ['id', 'ever_married', 'work_type', 'Residence_type']
+to_drop = ['id', 'work_type', 'Residence_type']
 for columns in to_drop:
     df = df.drop(columns, axis=1)
 
 # filling NaN values in the csv files with median from column
 df = df.fillna(df.median())
-"""
+df['gender'] = df['gender'].replace({'Male': 0, 'Female': 1})
+df['ever_married'] = df['ever_married'].replace({'No': 0, 'Yes': 1})
+
 # removing unknown variables from data frame which may affect results
 df = df.drop(df[df.smoking_status == 'Unknown'].index)
 
@@ -24,7 +26,7 @@ df.to_csv('stroke_clean_data.csv', encoding='utf-8', index=False)
 # quick summary of the data
 stats = df.describe()
 print(stats)
-
+"""
 strokePatient = pd.DataFrame(df.loc[df['stroke'] == 1])
 non_strokePatient = pd.DataFrame(df.loc[df['stroke'] == 0])
 
