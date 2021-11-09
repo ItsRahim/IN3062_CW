@@ -91,3 +91,7 @@ ax1.set_xlabel('')
 ax1.set_ylabel('')
 ax1.axes.get_yaxis().set_visible(False)
 plt.show()
+from sklearn import train_test_split
+X = df[['gender','age','hypertension','avg_glucose_level','bmi']]
+y = df['stroke']
+X_train, X_test. y_train,y_test = train_test_split(X,y,train_size=0.33,randomstate=42)
