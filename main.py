@@ -17,8 +17,7 @@ for columns in to_drop:
 df = df.fillna(df.median())
 
 colours = ['#364F6B', '#3FC1C9', '#F5F5F5', '#FC5185']
-colourPalette = sns.color_palette(colours)
-sns.palplot(colourPalette, size=2.5)
+
 
 figure = plt.figure(figsize=(12, 6), dpi=100)
 gs = figure.add_gridspec(1, 2)
@@ -73,7 +72,6 @@ ax0.set_ylabel('')
 ax1.set_xlabel('')
 ax1.set_ylabel('')
 ax1.axes.get_yaxis().set_visible(False)
-figure.show()
 plt.show()
 
 """
