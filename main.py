@@ -1,5 +1,4 @@
 from os import name
-import matplotlib
 import numpy as np
 import pandas as pd
 import seaborn as sns
@@ -17,7 +16,6 @@ for columns in to_drop:
 df = df.fillna(df.median())
 
 colours = ['#364F6B', '#3FC1C9', '#F5F5F5', '#FC5185']
-
 
 figure = plt.figure(figsize=(12, 6), dpi=100)
 gs = figure.add_gridspec(1, 2)
