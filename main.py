@@ -14,11 +14,29 @@ for columns in to_drop:
 
 # filling NaN values in the csv files with median from column
 df = df.fillna(df.median())
+"""
+# removing unknown variables from data frame which may affect results
+df = df.drop(df[df.smoking_status == 'Unknown'].index)
+
+# converting df to csv to check if data is clean
+df.to_csv('stroke_clean_data.csv', encoding='utf-8', index=False)
+
+# quick summary of the data
+stats = df.describe()
+print(stats)
+
+strokePatient = pd.DataFrame(df.loc[df['stroke'] == 1])
+non_strokePatient = pd.DataFrame(df.loc[df['stroke'] == 0])
+
+strokePatient.to_csv("_strokePatient.csv", encoding='utf-8', index=False)
+non_strokePatient.to_csv("_non_strokePatient.csv",
+                         encoding='utf-8', index=False)
+"""
 
 colours = ['#364F6B', '#3FC1C9', '#F5F5F5', '#FC5185']
 
-figure = plt.figure(figsize=(12, 6), dpi=100)
-gs = figure.add_gridspec(1, 2)
+figure = plt.figure(figsize=(15, 15), dpi=100)
+gs = figure.add_gridspec(3, 3)
 gs.update(wspace=0.25, hspace=0.5)
 
 ax0 = figure.add_subplot(gs[0, 0])
@@ -71,22 +89,3 @@ ax1.set_xlabel('')
 ax1.set_ylabel('')
 ax1.axes.get_yaxis().set_visible(False)
 plt.show()
-
-"""
-# removing unknown variables from data frame which may affect results
-df = df.drop(df[df.smoking_status == 'Unknown'].index)
-
-# converting df to csv to check if data is clean
-df.to_csv('stroke_clean_data.csv', encoding='utf-8', index=False)
-
-# quick summary of the data
-stats = df.describe()
-print(stats)
-
-strokePatient = pd.DataFrame(df.loc[df['stroke'] == 1])
-non_strokePatient = pd.DataFrame(df.loc[df['stroke'] == 0])
-
-strokePatient.to_csv("_strokePatient.csv", encoding='utf-8', index=False)
-non_strokePatient.to_csv("_non_strokePatient.csv",
-                         encoding='utf-8', index=False)
-"""
