@@ -1,14 +1,13 @@
 from os import name
 import numpy as np
 import pandas as pd
-import seaborn as sns
-from matplotlib import pyplot as plt
-from matplotlib.colors import LinearSegmentedColormap
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
+from visualise import graph
 
 df = pd.read_csv("stroke.csv")
+graph(df)
 
 # removing unneccesary columns
 to_drop = ['id', 'work_type', 'Residence_type']
