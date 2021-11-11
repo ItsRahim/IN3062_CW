@@ -48,3 +48,4 @@ linearModel.fit(X_train, y_train)
 y_pred = linearModel.predict(X_test)
 
 print(pd.DataFrame({'Actual': y_test.flatten(), 'Predicted': y_pred.flatten()}))
+
