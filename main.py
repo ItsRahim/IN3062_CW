@@ -55,6 +55,8 @@ accuracyData = (pd.DataFrame(
 
 accuracyData.to_csv("stroke_accuracy.csv", encoding='utf-8', index=False)
 print('Accuracy: %.2f' % accuracy_score(y_test, y_pred))
-We cannot use linear regression model as we are using multiple independent variable which is not possible with linear regression. 
+
+We cannot use linear regression model as we are using multiple independent variable
+which is not possible with linear regression. 
 Since, we attend to use multiple indpenedent varibale to predict a dependent variable
 """
