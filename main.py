@@ -44,6 +44,7 @@ y = df['stroke']
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, train_size=1/3, random_state=42)
 
+"""
 # training the algorithm
 linearModel = LinearRegression()
 linearModel.fit(X_train, y_train)
@@ -54,3 +55,6 @@ accuracyData = (pd.DataFrame(
 
 accuracyData.to_csv("stroke_accuracy.csv", encoding='utf-8', index=False)
 print('Accuracy: %.2f' % accuracy_score(y_test, y_pred))
+We cannot use linear regression model as we are using multiple independent variable which is not possible with linear regression. 
+Since, we attend to use multiple indpenedent varibale to predict a dependent variable
+"""
