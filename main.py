@@ -5,6 +5,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
 from visualise import graph
+from sklearn.linear_model import LinearRegression
 
 df = pd.read_csv("stroke.csv")
 graph(df)
@@ -31,19 +32,19 @@ df.to_csv('stroke_clean_data.csv', encoding='utf-8', index=False)
 stats = df.describe()
 print(stats)
 
-"""
-strokePatient = pd.DataFrame(df.loc[df['stroke'] == 1])
-non_strokePatient = pd.DataFrame(df.loc[df['stroke'] == 0])
-
-strokePatient.to_csv("_strokePatient.csv", encoding='utf-8', index=False)
-non_strokePatient.to_csv("_non_strokePatient.csv",
-                         encoding='utf-8', index=False)
-"""
 # TODO: Complete training for machine. Try Linear Regression, K Cluster, RandomForest
 # TODO: Train Using all above and use most accurate one
 X = df[['gender', 'age', 'hypertension',
         'heart_disease', 'ever_married', 'avg_glucose_level', 'bmi', 'smoking_status']]
 y = df['stroke']
 
+#splitting teh dataset into tarining and testing data
 X_train, X_test, y_train, y_test = train_test_split(
-    X, y, train_size=0.33, random_state=42)
+    X, y, train_size=1/3, random_state=42)
+
+#training the algorithm
+linearModel = LinearRegression()  
+linearModel.fit(X_train, y_train) 
+y_pred = linearModel.predict(X_test)
+
+print(pd.DataFrame({'Actual': y_test.flatten(), 'Predicted': y_pred.flatten()}))
