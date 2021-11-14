@@ -24,6 +24,7 @@ df['gender'] = df['gender'].replace({'Male': 0, 'Female': 1})
 df['ever_married'] = df['ever_married'].replace({'No': 0, 'Yes': 1})
 df['smoking_status'] = df['smoking_status'].replace(
     {'formerly smoked': -1, 'smokes': 1, 'never smoked': 0})
+
 # converting df to csv to check if data is clean
 df.to_csv('stroke_clean_data.csv', encoding='utf-8', index=False)
 
@@ -31,8 +32,7 @@ df.to_csv('stroke_clean_data.csv', encoding='utf-8', index=False)
 stats = df.describe()
 print(stats)
 
-# TODO: Complete training for machine. Try Linear Regression, K Cluster, RandomForest
-# TODO: Train Using all above and use most accurate one
+# COMMENT HERE
 X = df[['gender', 'age', 'hypertension',
         'heart_disease', 'ever_married', 'avg_glucose_level', 'bmi', 'smoking_status']]
 y = df['stroke']
@@ -46,6 +46,7 @@ clf =RandomForestClassifier(n_estimators=100)
 clf.fit(X_train,y_train)
 y_pred = clf.predict(X_test)
 print("Accuracy:", accuracy_score(y_test,y_pred))
+
 """
 # training the algorithm
 linearModel = LinearRegression()
