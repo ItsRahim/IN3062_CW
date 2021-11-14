@@ -14,7 +14,7 @@ for columns in to_drop:
     df = df.drop(columns, axis=1)
 
 # filling NaN values in the csv files with median from column
-df = df.fillna(df.median())
+df['bmi'].fillna(value=df['bmi'].median(), inplace=True)
 
 # removing unknown variables from data frame which may affect results
 df = df.drop(df[df.gender == 'Other'].index)
@@ -37,9 +37,11 @@ X = df[['gender', 'age', 'hypertension',
         'heart_disease', 'ever_married', 'avg_glucose_level', 'bmi', 'smoking_status']]
 y = df['stroke']
 
-# splitting teh dataset into tarining and testing data
+# splitting the dataset into training and testing data
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, train_size=1/3, random_state=42)
+
+# random forest classifier to train AI
 clf =RandomForestClassifier(n_estimators=100)
 clf.fit(X_train,y_train)
 y_pred = clf.predict(X_test)
