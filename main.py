@@ -1,12 +1,9 @@
-from os import name
-import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
 from visualise import graph
-from sklearn.linear_model import LinearRegression
-from matplotlib import pyplot as plt
+from sklearn.ensemble import RandomForestClassifier
 
 df = pd.read_csv("stroke.csv")
 graph(df)
