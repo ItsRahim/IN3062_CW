@@ -43,7 +43,10 @@ y = df['stroke']
 # splitting teh dataset into tarining and testing data
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, train_size=1/3, random_state=42)
-
+clf =RandomForestClassifier(n_estimators=100)
+clf.fit(X_train,y_train)
+y_pred = clf.predict(X_test)
+print("Accuracy:", accuracy_score(y_test,y_pred))
 """
 # training the algorithm
 linearModel = LinearRegression()
