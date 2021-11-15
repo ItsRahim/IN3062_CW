@@ -9,7 +9,7 @@ df = pd.read_csv("stroke.csv")
 graph(df)
 
 # removing unneccesary columns
-to_drop = ['id']
+to_drop = ['id', 'work_type']
 for columns in to_drop:
     df = df.drop(columns, axis=1)
 
@@ -24,6 +24,8 @@ df['gender'] = df['gender'].replace({'Male': 0, 'Female': 1})
 df['ever_married'] = df['ever_married'].replace({'No': 0, 'Yes': 1})
 df['smoking_status'] = df['smoking_status'].replace(
     {'formerly smoked': -1, 'smokes': 1, 'never smoked': 0})
+    
+# Adding residence type allowe dthe accuracy to be increase fractionally.    
 df['Residence_type'] = df['Residence_type'].replace({'Urban': 1, 'Rural': 0})
 
 # Testing if accuracy increased by adding in work_type
