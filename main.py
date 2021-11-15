@@ -25,7 +25,12 @@ df['ever_married'] = df['ever_married'].replace({'No': 0, 'Yes': 1})
 df['smoking_status'] = df['smoking_status'].replace(
     {'formerly smoked': -1, 'smokes': 1, 'never smoked': 0})
 df['Residence_type'] = df['Residence_type'].replace({'Urban': 1, 'Rural': 0})
-df['work_type'] = df['work_type'].replace({'Private':0, 'Self-employed': 1, 'Govt_job': 2, 'children': 3})
+
+# Testing if accuracy increased by adding in work_type
+"""
+df['work_type'] = df['work_type'].replace({'Private': 0, 'Self-employed': 1, 'Govt_job': 2, 'children' : 1})
+Adding work_type did not increase the accuracy as it stayed the same.
+"""
 
 # converting df to csv to check if data is clean
 df.to_csv('stroke_clean_data.csv', encoding='utf-8', index=False)
