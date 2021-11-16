@@ -24,8 +24,8 @@ df['gender'] = df['gender'].replace({'Male': 0, 'Female': 1})
 df['ever_married'] = df['ever_married'].replace({'No': 0, 'Yes': 1})
 df['smoking_status'] = df['smoking_status'].replace(
     {'formerly smoked': -1, 'smokes': 1, 'never smoked': 0})
-    
-# Adding residence type allowe dthe accuracy to be increase fractionally.    
+
+# Adding residence type allowe dthe accuracy to be increase fractionally.
 df['Residence_type'] = df['Residence_type'].replace({'Urban': 1, 'Rural': 0})
 
 # Testing if accuracy increased by adding in work_type
@@ -43,7 +43,7 @@ print(stats)
 
 # COMMENT HERE
 X = df[['gender', 'age', 'hypertension',
-        'heart_disease', 'ever_married','Residence_type','avg_glucose_level', 'bmi', 'smoking_status']]
+        'heart_disease', 'ever_married', 'Residence_type', 'avg_glucose_level', 'bmi', 'smoking_status']]
 y = df['stroke']
 
 # splitting the dataset into training and testing data
@@ -51,10 +51,12 @@ X_train, X_test, y_train, y_test = train_test_split(
     X, y, train_size=1/3, random_state=42)
 
 # random forest classifier to train AI
-clf =RandomForestClassifier(n_estimators=100)
-clf.fit(X_train,y_train)
+clf = RandomForestClassifier(n_estimators=100)
+clf.fit(X_train, y_train)
 y_pred = clf.predict(X_test)
-print("Accuracy:", accuracy_score(y_test,y_pred))
+print("Accuracy:", accuracy_score(y_test, y_pred))
+
+# !TODO: decision tree to train AI
 
 """
 # training the algorithm
