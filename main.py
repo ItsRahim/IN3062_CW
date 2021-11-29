@@ -57,7 +57,26 @@ y_pred = clf.predict(X_test)
 print("Accuracy:", accuracy_score(y_test, y_pred))
 
 # !TODO: decision tree to train AI
+def decisionTree(X_train,X_test,y_train,y_test):
+    print("Decision Tree Classifier")
+    classifier = DecisionTreeClassifier()
+    classifier.fit(X_train,y_train)
+    y_pred = classifier.predict(X_test)
+    dt= confusion_matrix(y_test,y_pred)
+    print(classification_report(y_test,y_pred))
 
+    colors  = ["lightgray","lightgray","#0f4c81"]
+    fig = plt.figure(figsize=(10,8))
+    gs = fig.add_gridspec(4,2)
+    gs.update(wspace=0.1,hspace=0.5)
+    ax0=fig.add_subplot(gs[0,:])
+    ax1=fig.add_subplot(gs[1,:])
+    colormap=LinearSegmentColormap.from_list("",colors)
+    sns.heatmap(dt,cmap=colormap,annot=True,fmt="d",linewidths=5,cbar=False,ax=ax1,
+                yticklabels=['Actual Non-Stroke','Actual Stroke'],vmax=500,vmin=0,xticklabels=['Predicted Non-Stroke','Predicted Stroke'],annot_kws={"fontsize":12})
+    ax0.tick_params(axis=u'both',which=u'both',length=0)
+    ax1.tick_params(axis=u'both',which=u'both',length=0)
+    plt.show()            
 """
 # training the algorithm
 linearModel = LinearRegression()
