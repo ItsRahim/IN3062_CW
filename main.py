@@ -122,3 +122,5 @@ We cannot use linear regression model as we are using multiple independent varia
 which is not possible with linear regression. 
 Since, we attend to use multiple indpenedent varibale to predict a dependent variable
 """
+randomForestClassifier(X_train, X_test, y_train, y_test)
+decisionTree(X_train, X_test, y_train, y_test)
