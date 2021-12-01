@@ -78,7 +78,7 @@ def randomForestClassifier(X_train, X_test, y_train, y_test):
                 yticklabels=['Actual Non-Stroke', 'Actual Stroke'], vmax=500, vmin=0, xticklabels=['Predicted Non-Stroke', 'Predicted Stroke'], annot_kws={"fontsize": 12})
 
     ax0.tick_params(axis=u'both', which=u'both', length=0)
-    ax1.tick_pa
+    ax1.tick_params(axis=u'both', which=u'both', length=0)
 
 
 def decisionTree(X_train, X_test, y_train, y_test):
