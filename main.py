@@ -1,9 +1,16 @@
+from imblearn import over_sampling
 import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
-from sklearn.metrics import confusion_matrix
+import seaborn as sns
+import matplotlib.pyplot as plt
+
 from visualise import graph
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import classification_report, confusion_matrix
+from matplotlib.colors import LinearSegmentedColormap
+from imblearn.over_sampling import SMOTE
 
 df = pd.read_csv("stroke.csv")
 graph(df)
@@ -41,7 +48,7 @@ df.to_csv('stroke_clean_data.csv', encoding='utf-8', index=False)
 stats = df.describe()
 print(stats)
 
-# COMMENT HERE
+# TODO: Smote to balance dataset
 X = df[['gender', 'age', 'hypertension',
         'heart_disease', 'ever_married', 'Residence_type', 'avg_glucose_level', 'bmi', 'smoking_status']]
 y = df['stroke']
@@ -50,33 +57,55 @@ y = df['stroke']
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, train_size=1/3, random_state=42)
 
-# random forest classifier to train AI
-clf = RandomForestClassifier(n_estimators=100)
-clf.fit(X_train, y_train)
-y_pred = clf.predict(X_test)
-print("Accuracy:", accuracy_score(y_test, y_pred))
 
-# !TODO: decision tree to train AI
-def decisionTree(X_train,X_test,y_train,y_test):
+def randomForestClassifier(X_train, X_test, y_train, y_test):
+    print("Random Forest Classifier")
+    clf = RandomForestClassifier(n_estimators=100)
+    clf.fit(X_train, y_train)
+    y_pred = clf.predict(X_test)
+    rfc = confusion_matrix(y_test, y_pred)
+    print(rfc)
+    print(classification_report(y_test, y_pred))
+
+    colors = ["lightgray", "lightgray", "#0f4c81"]
+    fig = plt.figure(figsize=(10, 8))
+    gs = fig.add_gridspec(4, 2)
+    gs.update(wspace=0.1, hspace=0.5)
+    ax0 = fig.add_subplot(gs[0, :])
+    ax1 = fig.add_subplot(gs[1, :])
+    colormap = LinearSegmentedColormap.from_list("", colors)
+    sns.heatmap(rfc, cmap=colormap, annot=True, fmt="d", linewidths=5, cbar=False, ax=ax1,
+                yticklabels=['Actual Non-Stroke', 'Actual Stroke'], vmax=500, vmin=0, xticklabels=['Predicted Non-Stroke', 'Predicted Stroke'], annot_kws={"fontsize": 12})
+
+    ax0.tick_params(axis=u'both', which=u'both', length=0)
+    ax1.tick_pa
+
+
+def decisionTree(X_train, X_test, y_train, y_test):
     print("Decision Tree Classifier")
     classifier = DecisionTreeClassifier()
-    classifier.fit(X_train,y_train)
+    classifier.fit(X_train, y_train)
     y_pred = classifier.predict(X_test)
-    dt= confusion_matrix(y_test,y_pred)
-    print(classification_report(y_test,y_pred))
+    dt = confusion_matrix(y_test, y_pred)
+    print(classification_report(y_test, y_pred))
 
-    colors  = ["lightgray","lightgray","#0f4c81"]
-    fig = plt.figure(figsize=(10,8))
-    gs = fig.add_gridspec(4,2)
-    gs.update(wspace=0.1,hspace=0.5)
-    ax0=fig.add_subplot(gs[0,:])
-    ax1=fig.add_subplot(gs[1,:])
-    colormap=LinearSegmentColormap.from_list("",colors)
-    sns.heatmap(dt,cmap=colormap,annot=True,fmt="d",linewidths=5,cbar=False,ax=ax1,
-                yticklabels=['Actual Non-Stroke','Actual Stroke'],vmax=500,vmin=0,xticklabels=['Predicted Non-Stroke','Predicted Stroke'],annot_kws={"fontsize":12})
-    ax0.tick_params(axis=u'both',which=u'both',length=0)
-    ax1.tick_params(axis=u'both',which=u'both',length=0)
-    plt.show()            
+    colors = ["lightgray", "lightgray", "#0f4c81"]
+    fig = plt.figure(figsize=(10, 8))
+    gs = fig.add_gridspec(4, 2)
+    gs.update(wspace=0.1, hspace=0.5)
+    ax0 = fig.add_subplot(gs[0, :])
+    ax1 = fig.add_subplot(gs[1, :])
+    colormap = LinearSegmentedColormap.from_list("", colors)
+    sns.heatmap(dt, cmap=colormap, annot=True, fmt="d", linewidths=5, cbar=False, ax=ax1,
+                yticklabels=['Actual Non-Stroke', 'Actual Stroke'], vmax=500, vmin=0, xticklabels=['Predicted Non-Stroke', 'Predicted Stroke'], annot_kws={"fontsize": 12})
+    ax0.tick_params(axis=u'both', which=u'both', length=0)
+    ax1.tick_params(axis=u'both', which=u'both', length=0)
+    plt.show()
+
+
+# TODO: Logistic Regression to train AI
+# TODO: Convolutional Neural Network to train AI
+# TODO: Try with K-Fold Split
 """
 # training the algorithm
 linearModel = LinearRegression()
