@@ -1,8 +1,9 @@
-from imblearn import over_sampling
+
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
+from imblearn import over_sampling
 from visualise import graph
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.linear_model import LinearRegression
@@ -48,7 +49,7 @@ df.to_csv('stroke_clean_data.csv', encoding='utf-8', index=False)
 stats = df.describe()
 print(stats)
 
-# TODO: Smote to balance dataset
+# TODO: Smote to balance dataset - Rahim
 X = df[['gender', 'age', 'hypertension',
         'heart_disease', 'ever_married', 'Residence_type', 'avg_glucose_level', 'bmi', 'smoking_status']]
 y = df['stroke']
@@ -103,9 +104,11 @@ def decisionTree(X_train, X_test, y_train, y_test):
     plt.show()
 
 
-# TODO: Logistic Regression to train AI
-# TODO: Convolutional Neural Network to train AI
-# TODO: Try with K-Fold Split
+# TODO: Logistic Regression to train AI - Jeeves
+
+# TODO: Convolutional Neural Network to train AI - Jeeves
+
+# TODO: Try with K-Fold Split - Abarna
 """
 # training the algorithm
 linearModel = LinearRegression()
