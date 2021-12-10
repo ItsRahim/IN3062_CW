@@ -11,7 +11,8 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, confusion_matrix
 from matplotlib.colors import LinearSegmentedColormap
-from imblearn.over_sampling import SMOTE
+# commented for now
+#from imblearn.over_sampling import SMOTE
 
 df = pd.read_csv("stroke.csv")
 graph(df)
