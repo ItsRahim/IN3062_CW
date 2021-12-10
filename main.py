@@ -3,7 +3,6 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-from imblearn import over_sampling
 from visualise import graph
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.linear_model import LinearRegression
@@ -13,6 +12,7 @@ from sklearn.metrics import classification_report, confusion_matrix
 from matplotlib.colors import LinearSegmentedColormap
 # commented for now
 #from imblearn.over_sampling import SMOTE
+#from imblearn import over_sampling
 
 df = pd.read_csv("stroke.csv")
 graph(df)
