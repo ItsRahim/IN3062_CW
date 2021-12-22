@@ -1,18 +1,10 @@
 import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
-import numpy as np
 
-from sklearn.model_selection import KFold
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, confusion_matrix
-from matplotlib.colors import LinearSegmentedColormap
-from sklearn.metrics import accuracy_score
-from sklearn.linear_model import LogisticRegression
-from sklearn import metrics
 # commented for now
 #from imblearn.over_sampling import SMOTE
 #from imblearn import over_sampling
@@ -87,7 +79,7 @@ def decisionTree(X_train, X_test, y_train, y_test):
 
 def logisticRegression(X_train, X_test, y_train, y_test):
     print("Logistic Regression")
-    logreg = LogisticRegression()
+    logreg = LogisticRegression(max_iter=1000)
     logreg.fit(X_train, y_train)
     y_pred = logreg.predict(X_test)
     cnf_matrix = confusion_matrix(y_test, y_pred)
