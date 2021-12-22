@@ -3,13 +3,13 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-from visualise import graph
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, confusion_matrix
 from matplotlib.colors import LinearSegmentedColormap
+from sklearn.metrics import accuracy_score
 # commented for now
 #from imblearn.over_sampling import SMOTE
 #from imblearn import over_sampling
@@ -118,7 +118,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 def randomForestClassifier(X_train, X_test, y_train, y_test):
     print("Random Forest Classifier")
-    clf = RandomForestClassifier(n_estimators=100)
+    clf = RandomForestClassifier(n_estimators=100, criterion = 'gini')
     clf.fit(X_train, y_train)
     y_pred = clf.predict(X_test)
     rfc = confusion_matrix(y_test, y_pred)
@@ -137,11 +137,11 @@ def randomForestClassifier(X_train, X_test, y_train, y_test):
 
     ax0.tick_params(axis=u'both', which=u'both', length=0)
     ax1.tick_params(axis=u'both', which=u'both', length=0)
-
+    print('Accuracy: %.2f' % accuracy_score(y_test, y_pred))
 
 def decisionTree(X_train, X_test, y_train, y_test):
     print("Decision Tree Classifier")
-    classifier = DecisionTreeClassifier()
+    classifier = DecisionTreeClassifier(criterion = 'gini')
     classifier.fit(X_train, y_train)
     y_pred = classifier.predict(X_test)
     dt = confusion_matrix(y_test, y_pred)
@@ -159,13 +159,16 @@ def decisionTree(X_train, X_test, y_train, y_test):
     ax0.tick_params(axis=u'both', which=u'both', length=0)
     ax1.tick_params(axis=u'both', which=u'both', length=0)
     plt.show()
+    print('Accuracy: %.2f' % accuracy_score(y_test, y_pred))
 
 
 # TODO: Logistic Regression to train AI - Jeeves
 
-# TODO: Convolutional Neural Network to train AI - Jeeves
+# TODO: Gaussian to train AI - Jeeves
 
 # TODO: Try with K-Fold Split - Abarna
+
+
 """
 # training the algorithm
 linearModel = LinearRegression()
