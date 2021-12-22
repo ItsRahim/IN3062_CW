@@ -6,7 +6,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, confusion_matrix
-from imblearn.over_sampling import SMOTE
+#from imblearn.over_sampling import SMOTE
 from sklearn.model_selection import KFold
 from sklearn.metrics import accuracy_score
 import matplotlib.pyplot as plt
@@ -48,7 +48,7 @@ df.to_csv('stroke_clean_data.csv', encoding='utf-8', index=False)
 stats = df.describe()
 print(stats)
 
-over_sampling = SMOTE()
+#over_sampling = SMOTE()
 
 X = df[['gender', 'age', 'hypertension',
         'heart_disease', 'ever_married', 'Residence_type', 'avg_glucose_level', 'bmi', 'smoking_status']]
@@ -59,7 +59,7 @@ variety = y
 # splitting the dataset into training and testing data
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, train_size=1/3, random_state=42)
-X_train_smote, y_train_smote = over_sampling.fit_resample(X_train, y_train)
+#X_train_smote, y_train_smote = over_sampling.fit_resample(X_train, y_train)
 
 
 decision_tree = DecisionTreeClassifier(criterion='entropy')
@@ -122,7 +122,7 @@ def randomForestClassifier(X_train, X_test, y_train, y_test):
 
 def decisionTree(X_train, X_test, y_train, y_test):
     print("Decision Tree Classifier")
-    decisionTreeModel = DecisionTreeClassifier(criterion='entropy')
+    decisionTreeModel = DecisionTreeClassifier(criterion='gini')
     decisionTreeModel.fit(X_train, y_train)
     y_pred = decisionTreeModel.predict(X_test)
     dt = confusion_matrix(y_test, y_pred)
