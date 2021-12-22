@@ -1,4 +1,3 @@
-
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -11,6 +10,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, confusion_matrix
 from matplotlib.colors import LinearSegmentedColormap
 from sklearn.metrics import accuracy_score
+from sklearn.linear_model import LogisticRegression
+from sklearn import metrics
 # commented for now
 #from imblearn.over_sampling import SMOTE
 #from imblearn import over_sampling
@@ -162,29 +163,40 @@ def decisionTree(X_train, X_test, y_train, y_test):
     plt.show()
     print('Accuracy: %.2f' % accuracy_score(y_test, y_pred))
 
+    kf = KFold(5)
+    fold = 1
+    for train_index, validate_index in kf.split(X_train,y_train):
+        classifier = KFold()
+        classifier.fit(X_train[train_index],y_train[train_index])
+        y_test = y_train[validate_index]
+        y_pred = classifier.predict(X_test[validate_index])
+        #print(y_test)
+        #print(y_pred)
+        #print(f"Fold #{fold}, Training Size: {len(trainDF)}, Validation Size: {len(validateDF)}")
+        print(f"Fold #{fold}, Training Size: {len(X_train[train_index])}, Validation Size: {len(X_train[validate_index])}")
+        print('Accuracy: %.2f' % accuracy_score(y_test, y_pred))
+        fold += 1
+    
+    
 
 # TODO: Logistic Regression to train AI - Jeeves
 
-# TODO: Gaussian to train AI - Jeeves
+
+# TODO: Gaussian instead of convolutional neural network to train AI - Jeeves
 
 # TODO: Try with K-Fold Split - Abarna
 # Using 5-fold split
 
-# =============================================================================
-# kf = KFold(5)
-# fold = 1
-# for train_index, validate_index in kf.split(X,y):
-#     classifier.fit(X[train_index],y[train_index])
-#     y_test = y[validate_index]
-#     y_pred = classifier.predict(X[validate_index])
-#     #print(y_test)
-#     #print(y_pred)
-#     #print(f"Fold #{fold}, Training Size: {len(trainDF)}, Validation Size: {len(validateDF)}")
-#     print(f"Fold #{fold}, Training Size: {len(X[train_index])}, Validation Size: {len(X[validate_index])}")
-#     print('Accuracy: %.2f' % accuracy_score(y_test, y_pred))
-#     fold += 1
-# 
-# =============================================================================
+     
+     
+def logisticRegression(X_train, X_test, y_train, y_test):
+    print("Logistic Regression")
+    logreg = LogisticRegression()
+    logreg.fit(X_train,y_train)
+    y_pred=logreg.predict(X_test)
+    cnf_matrix = metrics.confusion_matrix(y_test, y_pred)
+    cnf_matrix
+
 """
 # training the algorithm
 linearModel = LinearRegression()
@@ -203,3 +215,4 @@ Since, we attend to use multiple indpenedent varibale to predict a dependent var
 """
 randomForestClassifier(X_train, X_test, y_train, y_test)
 decisionTree(X_train, X_test, y_train, y_test)
+logisticRegression(X_train, X_test, y_train, y_test)
