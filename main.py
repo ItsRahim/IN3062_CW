@@ -19,7 +19,8 @@ from sklearn import metrics
 
 
 df = pd.read_csv("stroke.csv")
-
+x = pd.DataFrame(df.groupby(['stroke'])['stroke'].count())
+print(x)
 # removing unneccesary columns
 to_drop = ['id', 'work_type']
 for columns in to_drop:
@@ -65,7 +66,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 def randomForestClassifier(X_train, X_test, y_train, y_test):
     print("Random Forest Classifier")
-    clf = RandomForestClassifier(n_estimators=100, criterion = 'gini')
+    clf = RandomForestClassifier(n_estimators=100, criterion='gini')
     clf.fit(X_train, y_train)
     y_pred = clf.predict(X_test)
     rfc = confusion_matrix(y_test, y_pred)
@@ -86,13 +87,14 @@ def randomForestClassifier(X_train, X_test, y_train, y_test):
     ax1.tick_params(axis=u'both', which=u'both', length=0)
     print('Accuracy: %.2f' % accuracy_score(y_test, y_pred))
 
+
 def decisionTree(X_train, X_test, y_train, y_test):
     print("Decision Tree Classifier")
-    classifier = DecisionTreeClassifier(criterion = 'gini')
+    classifier = DecisionTreeClassifier(criterion='gini')
     classifier.fit(X_train, y_train)
     y_pred = classifier.predict(X_test)
     accuracy = accuracy_score(y_test, y_pred)
-    
+
     def plot_confusion_matrix(cm, names, title='Confusion matrix', cmap=plt.cm.Blues):
         plt.imshow(cm, interpolation='nearest', cmap=cmap)
         plt.title(title)
@@ -103,7 +105,8 @@ def decisionTree(X_train, X_test, y_train, y_test):
         plt.tight_layout()
         plt.ylabel('True label')
         plt.xlabel('Predicted label')
-    
+
+
 cm = confusion_matrix(y_test, y_pred)
 
 print('Accuracy: %.2f' % accuracy)
@@ -115,19 +118,19 @@ plot_confusion_matrix(cm, variety, title='')
 
 kf = KFold(5)
 fold = 1
-for train_index, validate_index in kf.split(X_train,y_train):
-        classifier = KFold()
-        classifier.fit(X_train[train_index],y_train[train_index])
-        y_test = y_train[validate_index]
-        y_pred = classifier.predict(X_test[validate_index])
-        #print(y_test)
-        #print(y_pred)
-        #print(f"Fold #{fold}, Training Size: {len(trainDF)}, Validation Size: {len(validateDF)}")
-        print(f"Fold #{fold}, Training Size: {len(X_train[train_index])}, Validation Size: {len(X_train[validate_index])}")
-        print('Accuracy: %.2f' % accuracy_score(y_test, y_pred))
-        fold += 1
-    
-    
+for train_index, validate_index in kf.split(X_train, y_train):
+    classifier = KFold()
+    classifier.fit(X_train[train_index], y_train[train_index])
+    y_test = y_train[validate_index]
+    y_pred = classifier.predict(X_test[validate_index])
+    # print(y_test)
+    # print(y_pred)
+    # print(f"Fold #{fold}, Training Size: {len(trainDF)}, Validation Size: {len(validateDF)}")
+    print(
+        f"Fold #{fold}, Training Size: {len(X_train[train_index])}, Validation Size: {len(X_train[validate_index])}")
+    print('Accuracy: %.2f' % accuracy_score(y_test, y_pred))
+    fold += 1
+
 
 # TODO: Logistic Regression to train AI - Jeeves
 
@@ -137,15 +140,15 @@ for train_index, validate_index in kf.split(X_train,y_train):
 # TODO: Try with K-Fold Split - Abarna
 # Using 5-fold split
 
-     
-     
+
 def logisticRegression(X_train, X_test, y_train, y_test):
     print("Logistic Regression")
     logreg = LogisticRegression()
-    logreg.fit(X_train,y_train)
-    y_pred=logreg.predict(X_test)
+    logreg.fit(X_train, y_train)
+    y_pred = logreg.predict(X_test)
     cnf_matrix = metrics.confusion_matrix(y_test, y_pred)
     cnf_matrix
+
 
 """
 # training the algorithm
