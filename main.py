@@ -11,6 +11,37 @@ from sklearn.model_selection import KFold
 from sklearn.metrics import accuracy_score
 import matplotlib.pyplot as plt
 
+
+def randomForestClassifier(X_train, X_test, y_train, y_test):
+    print("Random Forest Classifier")
+    clf = RandomForestClassifier(n_estimators=100, criterion='gini')
+    clf.fit(X_train, y_train)
+    y_pred = clf.predict(X_test)
+    rfc = confusion_matrix(y_test, y_pred)
+    print(rfc)
+    print(classification_report(y_test, y_pred))
+
+
+def decisionTree(X_train, X_test, y_train, y_test):
+    print("Decision Tree Classifier")
+    decisionTreeModel = DecisionTreeClassifier(criterion='gini')
+    decisionTreeModel.fit(X_train, y_train)
+    y_pred = decisionTreeModel.predict(X_test)
+    dt = confusion_matrix(y_test, y_pred)
+    print(dt)
+    print(classification_report(y_test, y_pred))
+
+
+def logisticRegression(X_train, X_test, y_train, y_test):
+    print("Logistic Regression")
+    logreg = LogisticRegression(max_iter=1000)
+    logreg.fit(X_train, y_train)
+    y_pred = logreg.predict(X_test)
+    cnf_matrix = confusion_matrix(y_test, y_pred)
+    print(cnf_matrix)
+    print(classification_report(y_test, y_pred))
+
+
 df = pd.read_csv("stroke.csv")
 x = pd.DataFrame(df.groupby(['stroke'])['stroke'].count())
 print(x)
@@ -61,7 +92,7 @@ X_train, X_test, y_train, y_test = train_test_split(
     X, y, train_size=1/3, random_state=42)
 #X_train_smote, y_train_smote = over_sampling.fit_resample(X_train, y_train)
 
-
+""" 
 decision_tree = DecisionTreeClassifier(criterion='entropy')
 
 decision_tree.fit(X_train, y_train)
@@ -107,37 +138,7 @@ for train_index, validate_index in kf.split(X, y):
     print(
         f"Fold #{fold}, Training Size: {len(X[train_index])}, Validation Size: {len(X[validate_index])}")
     print('Accuracy: %.2f' % accuracy_score(y_test, y_pred))
-    fold += 1
-
-
-def randomForestClassifier(X_train, X_test, y_train, y_test):
-    print("Random Forest Classifier")
-    clf = RandomForestClassifier(n_estimators=100, criterion='gini')
-    clf.fit(X_train, y_train)
-    y_pred = clf.predict(X_test)
-    rfc = confusion_matrix(y_test, y_pred)
-    print(rfc)
-    print(classification_report(y_test, y_pred))
-
-
-def decisionTree(X_train, X_test, y_train, y_test):
-    print("Decision Tree Classifier")
-    decisionTreeModel = DecisionTreeClassifier(criterion='gini')
-    decisionTreeModel.fit(X_train, y_train)
-    y_pred = decisionTreeModel.predict(X_test)
-    dt = confusion_matrix(y_test, y_pred)
-    print(dt)
-    print(classification_report(y_test, y_pred))
-
-
-def logisticRegression(X_train, X_test, y_train, y_test):
-    print("Logistic Regression")
-    logreg = LogisticRegression(max_iter=1000)
-    logreg.fit(X_train, y_train)
-    y_pred = logreg.predict(X_test)
-    cnf_matrix = confusion_matrix(y_test, y_pred)
-    print(cnf_matrix)
-    print(classification_report(y_test, y_pred))
+    fold += 1 """
 
 
 # TODO: Gaussian instead of convolutional neural network to train AI - Jeeves
@@ -157,6 +158,6 @@ We cannot use linear regression model as we are using multiple independent varia
 which is not possible with linear regression. 
 Since, we attend to use multiple indpenedent varibale to predict a dependent variable
 """
-randomForestClassifier(X_train, X_test, y_train, y_test)
+#randomForestClassifier(X_train, X_test, y_train, y_test)
 #decisionTree(X_train, X_test, y_train, y_test)
-#logisticRegression(X_train, X_test, y_train, y_test)
+logisticRegression(X_train, X_test, y_train, y_test)
