@@ -1,7 +1,7 @@
-
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+import numpy as np
 
 from sklearn.model_selection import KFold
 from sklearn.tree import DecisionTreeClassifier
@@ -11,69 +11,16 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, confusion_matrix
 from matplotlib.colors import LinearSegmentedColormap
 from sklearn.metrics import accuracy_score
+from sklearn.linear_model import LogisticRegression
+from sklearn import metrics
 # commented for now
 #from imblearn.over_sampling import SMOTE
 #from imblearn import over_sampling
 
 
-def graph(df):
-    colours = ['#364F6B', '#3FC1C9', '#F5F5F5', '#FC5185']
-    figure = plt.figure(figsize=(15, 15), dpi=100)
-    gs = figure.add_gridspec(3, 3)
-    gs.update(wspace=0.25, hspace=0.5)
-
-    ax0 = figure.add_subplot(gs[0, 0])
-    ax1 = figure.add_subplot(gs[0, 1])
-
-    figure.patch.set_facecolor('#F5F5F5')
-    ax0.set_facecolor('#F5F5F5')
-    ax1.set_facecolor('#F5F5F5')
-
-    healthy_person = df[df['stroke'] == 0]
-    unhealthy_person = df[df['stroke'] == 1]
-
-    gender = ['Male', 'Female']
-    smoking_status = ['smokes', 'formerly smoked', 'never smoked']
-
-    col1 = ["#364F6B", "#FC5185"]
-    colormap1 = LinearSegmentedColormap.from_list(
-        "", col1, N=256)
-    col2 = ["#364F6B", "#3FC1C9"]
-    colormap2 = LinearSegmentedColormap.from_list("", col2)
-
-    stroke = pd.crosstab(unhealthy_person['gender'], [
-        unhealthy_person['smoking_status']], normalize='index').loc[gender, smoking_status]
-    no_stroke = pd.crosstab(healthy_person['gender'], [
-                            healthy_person['smoking_status']], normalize='index').loc[gender, smoking_status]
-
-    sns.heatmap(ax=ax0, data=stroke, linewidths=0,
-                square=True, cbar_kws={"orientation": "horizontal"}, cbar=False, linewidth=3, cmap=col1, annot=True, fmt='1.0%', annot_kws={"fontsize": 14}, alpha=0.9)
-
-    sns.heatmap(ax=ax1, data=no_stroke, linewidths=0,
-                square=True, cbar_kws={"orientation": "horizontal"}, cbar=False, linewidth=3, cmap=col2, annot=True, fmt='1.0%', annot_kws={"fontsize": 14}, alpha=0.9)
-
-    ax0.text(0, -1., 'Distribution of Strokes with Gender & Smoking Status',
-             {'font': 'Serif', 'color': 'black', 'weight': 'bold', 'size': 25})
-
-    ax0.text(0, -0.1, 'Stroke Pecentage ',
-             {'font': 'serif', 'color': "#FC5185", 'size': 20}, alpha=0.9)
-    ax1.text(0, -0.1, 'No Stroke Percentage',
-             {'font': 'serif', 'color': "#364F6B", 'size': 20}, alpha=0.9)
-
-    ax0.set_xticklabels(['Smoke', 'Quit', 'Never'])
-    ax1.set_xticklabels(['Smoke', 'Quit', 'Never'])
-
-    ax0.set_xlabel('')
-    ax0.set_ylabel('')
-    ax1.set_xlabel('')
-    ax1.set_ylabel('')
-    ax1.axes.get_yaxis().set_visible(False)
-    plt.show()
-
-
 df = pd.read_csv("stroke.csv")
-graph(df)
-
+x = pd.DataFrame(df.groupby(['stroke'])['stroke'].count())
+print(x)
 # removing unneccesary columns
 to_drop = ['id', 'work_type']
 for columns in to_drop:
@@ -119,7 +66,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 def randomForestClassifier(X_train, X_test, y_train, y_test):
     print("Random Forest Classifier")
-    clf = RandomForestClassifier(n_estimators=100, criterion = 'gini')
+    clf = RandomForestClassifier(n_estimators=100, criterion='gini')
     clf.fit(X_train, y_train)
     y_pred = clf.predict(X_test)
     rfc = confusion_matrix(y_test, y_pred)
@@ -140,51 +87,69 @@ def randomForestClassifier(X_train, X_test, y_train, y_test):
     ax1.tick_params(axis=u'both', which=u'both', length=0)
     print('Accuracy: %.2f' % accuracy_score(y_test, y_pred))
 
+
 def decisionTree(X_train, X_test, y_train, y_test):
     print("Decision Tree Classifier")
-    classifier = DecisionTreeClassifier(criterion = 'gini')
+    classifier = DecisionTreeClassifier(criterion='gini')
     classifier.fit(X_train, y_train)
     y_pred = classifier.predict(X_test)
-    dt = confusion_matrix(y_test, y_pred)
-    print(classification_report(y_test, y_pred))
+    accuracy = accuracy_score(y_test, y_pred)
 
-    colors = ["lightgray", "lightgray", "#0f4c81"]
-    fig = plt.figure(figsize=(10, 8))
-    gs = fig.add_gridspec(4, 2)
-    gs.update(wspace=0.1, hspace=0.5)
-    ax0 = fig.add_subplot(gs[0, :])
-    ax1 = fig.add_subplot(gs[1, :])
-    colormap = LinearSegmentedColormap.from_list("", colors)
-    sns.heatmap(dt, cmap=colormap, annot=True, fmt="d", linewidths=5, cbar=False, ax=ax1,
-                yticklabels=['Actual Non-Stroke', 'Actual Stroke'], vmax=500, vmin=0, xticklabels=['Predicted Non-Stroke', 'Predicted Stroke'], annot_kws={"fontsize": 12})
-    ax0.tick_params(axis=u'both', which=u'both', length=0)
-    ax1.tick_params(axis=u'both', which=u'both', length=0)
-    plt.show()
+    def plot_confusion_matrix(cm, names, title='Confusion matrix', cmap=plt.cm.Blues):
+        plt.imshow(cm, interpolation='nearest', cmap=cmap)
+        plt.title(title)
+        plt.colorbar(fraction=0.05)
+        tick_marks = np.arange(len(names))
+        plt.xticks(tick_marks, names, rotation=45)
+        plt.yticks(tick_marks, names)
+        plt.tight_layout()
+        plt.ylabel('True label')
+        plt.xlabel('Predicted label')
+
+
+cm = confusion_matrix(y_test, y_pred)
+
+print('Accuracy: %.2f' % accuracy)
+
+print(cm)
+
+plt.figure()
+plot_confusion_matrix(cm, variety, title='')
+
+kf = KFold(5)
+fold = 1
+for train_index, validate_index in kf.split(X_train, y_train):
+    classifier = KFold()
+    classifier.fit(X_train[train_index], y_train[train_index])
+    y_test = y_train[validate_index]
+    y_pred = classifier.predict(X_test[validate_index])
+    # print(y_test)
+    # print(y_pred)
+    # print(f"Fold #{fold}, Training Size: {len(trainDF)}, Validation Size: {len(validateDF)}")
+    print(
+        f"Fold #{fold}, Training Size: {len(X_train[train_index])}, Validation Size: {len(X_train[validate_index])}")
     print('Accuracy: %.2f' % accuracy_score(y_test, y_pred))
+    fold += 1
 
 
 # TODO: Logistic Regression to train AI - Jeeves
 
-# TODO: Gaussian to train AI - Jeeves
+
+# TODO: Gaussian instead of convolutional neural network to train AI - Jeeves
 
 # TODO: Try with K-Fold Split - Abarna
 # Using 5-fold split
 
-# =============================================================================
-# kf = KFold(5)
-# fold = 1
-# for train_index, validate_index in kf.split(X,y):
-#     classifier.fit(X[train_index],y[train_index])
-#     y_test = y[validate_index]
-#     y_pred = classifier.predict(X[validate_index])
-#     #print(y_test)
-#     #print(y_pred)
-#     #print(f"Fold #{fold}, Training Size: {len(trainDF)}, Validation Size: {len(validateDF)}")
-#     print(f"Fold #{fold}, Training Size: {len(X[train_index])}, Validation Size: {len(X[validate_index])}")
-#     print('Accuracy: %.2f' % accuracy_score(y_test, y_pred))
-#     fold += 1
-# 
-# =============================================================================
+
+def logisticRegression(X_train, X_test, y_train, y_test):
+    print("Logistic Regression")
+    logreg = LogisticRegression()
+    logreg.fit(X_train, y_train)
+    y_pred = logreg.predict(X_test)
+    cnf_matrix = metrics.confusion_matrix(y_test, y_pred)
+    cnf_matrix
+
+
 """
 # training the algorithm
 linearModel = LinearRegression()
@@ -203,3 +168,4 @@ Since, we attend to use multiple indpenedent varibale to predict a dependent var
 """
 randomForestClassifier(X_train, X_test, y_train, y_test)
 decisionTree(X_train, X_test, y_train, y_test)
+logisticRegression(X_train, X_test, y_train, y_test)
