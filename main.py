@@ -21,6 +21,7 @@ from sklearn import metrics
 df = pd.read_csv("stroke.csv")
 x = pd.DataFrame(df.groupby(['stroke'])['stroke'].count())
 print(x)
+
 # removing unneccesary columns
 to_drop = ['id', 'work_type']
 for columns in to_drop:
@@ -73,72 +74,15 @@ def randomForestClassifier(X_train, X_test, y_train, y_test):
     print(rfc)
     print(classification_report(y_test, y_pred))
 
-    colors = ["lightgray", "lightgray", "#0f4c81"]
-    fig = plt.figure(figsize=(10, 8))
-    gs = fig.add_gridspec(4, 2)
-    gs.update(wspace=0.1, hspace=0.5)
-    ax0 = fig.add_subplot(gs[0, :])
-    ax1 = fig.add_subplot(gs[1, :])
-    colormap = LinearSegmentedColormap.from_list("", colors)
-    sns.heatmap(rfc, cmap=colormap, annot=True, fmt="d", linewidths=5, cbar=False, ax=ax1,
-                yticklabels=['Actual Non-Stroke', 'Actual Stroke'], vmax=500, vmin=0, xticklabels=['Predicted Non-Stroke', 'Predicted Stroke'], annot_kws={"fontsize": 12})
-
-    ax0.tick_params(axis=u'both', which=u'both', length=0)
-    ax1.tick_params(axis=u'both', which=u'both', length=0)
-    print('Accuracy: %.2f' % accuracy_score(y_test, y_pred))
-
 
 def decisionTree(X_train, X_test, y_train, y_test):
     print("Decision Tree Classifier")
-    classifier = DecisionTreeClassifier(criterion='gini')
+    classifier = DecisionTreeClassifier()
     classifier.fit(X_train, y_train)
     y_pred = classifier.predict(X_test)
-    accuracy = accuracy_score(y_test, y_pred)
-
-    def plot_confusion_matrix(cm, names, title='Confusion matrix', cmap=plt.cm.Blues):
-        plt.imshow(cm, interpolation='nearest', cmap=cmap)
-        plt.title(title)
-        plt.colorbar(fraction=0.05)
-        tick_marks = np.arange(len(names))
-        plt.xticks(tick_marks, names, rotation=45)
-        plt.yticks(tick_marks, names)
-        plt.tight_layout()
-        plt.ylabel('True label')
-        plt.xlabel('Predicted label')
-
-
-cm = confusion_matrix(y_test, y_pred)
-
-print('Accuracy: %.2f' % accuracy)
-
-print(cm)
-
-plt.figure()
-plot_confusion_matrix(cm, variety, title='')
-
-kf = KFold(5)
-fold = 1
-for train_index, validate_index in kf.split(X_train, y_train):
-    classifier = KFold()
-    classifier.fit(X_train[train_index], y_train[train_index])
-    y_test = y_train[validate_index]
-    y_pred = classifier.predict(X_test[validate_index])
-    # print(y_test)
-    # print(y_pred)
-    # print(f"Fold #{fold}, Training Size: {len(trainDF)}, Validation Size: {len(validateDF)}")
-    print(
-        f"Fold #{fold}, Training Size: {len(X_train[train_index])}, Validation Size: {len(X_train[validate_index])}")
-    print('Accuracy: %.2f' % accuracy_score(y_test, y_pred))
-    fold += 1
-
-
-# TODO: Logistic Regression to train AI - Jeeves
-
-
-# TODO: Gaussian instead of convolutional neural network to train AI - Jeeves
-
-# TODO: Try with K-Fold Split - Abarna
-# Using 5-fold split
+    dt = confusion_matrix(y_test, y_pred)
+    print(dt)
+    print(classification_report(y_test, y_pred))
 
 
 def logisticRegression(X_train, X_test, y_train, y_test):
@@ -146,10 +90,12 @@ def logisticRegression(X_train, X_test, y_train, y_test):
     logreg = LogisticRegression()
     logreg.fit(X_train, y_train)
     y_pred = logreg.predict(X_test)
-    cnf_matrix = metrics.confusion_matrix(y_test, y_pred)
-    cnf_matrix
+    cnf_matrix = confusion_matrix(y_test, y_pred)
+    print(cnf_matrix)
+    print(classification_report(y_test, y_pred))
 
 
+# TODO: Gaussian instead of convolutional neural network to train AI - Jeeves
 """
 # training the algorithm
 linearModel = LinearRegression()
