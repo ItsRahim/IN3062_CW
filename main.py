@@ -4,6 +4,7 @@ import numpy as np
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, confusion_matrix
 #from imblearn.over_sampling import SMOTE
@@ -37,6 +38,15 @@ def logisticRegression(X_train, X_test, y_train, y_test):
     logreg = LogisticRegression(max_iter=1000)
     logreg.fit(X_train, y_train)
     y_pred = logreg.predict(X_test)
+    cnf_matrix = confusion_matrix(y_test, y_pred)
+    print(cnf_matrix)
+    print(classification_report(y_test, y_pred))
+    
+def linearRegression(X_train, X_test, y_train, y_test):
+    print("Linear Regression")
+    linearModel = LinearRegression()
+    linearModel.fit(X_train, y_train)
+    y_pred = linearModel.predict(X_test)
     cnf_matrix = confusion_matrix(y_test, y_pred)
     print(cnf_matrix)
     print(classification_report(y_test, y_pred))
@@ -140,24 +150,6 @@ for train_index, validate_index in kf.split(X, y):
     print('Accuracy: %.2f' % accuracy_score(y_test, y_pred))
     fold += 1 """
 
-
-# TODO: Gaussian instead of convolutional neural network to train AI - Jeeves
-"""
-# training the algorithm
-linearModel = LinearRegression()
-linearModel.fit(X_train, y_train)
-y_pred = linearModel.predict(X_test)
-
-accuracyData = (pd.DataFrame(
-    {'Actual': y_test, 'Predicted': y_pred}))
-
-accuracyData.to_csv("stroke_accuracy.csv", encoding='utf-8', index=False)
-print('Accuracy: %.2f' % accuracy_score(y_test, y_pred))
-
-We cannot use linear regression model as we are using multiple independent variable
-which is not possible with linear regression. 
-Since, we attend to use multiple indpenedent varibale to predict a dependent variable
-"""
 #randomForestClassifier(X_train, X_test, y_train, y_test)
 #decisionTree(X_train, X_test, y_train, y_test)
 logisticRegression(X_train, X_test, y_train, y_test)
