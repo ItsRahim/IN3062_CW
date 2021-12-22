@@ -3,6 +3,7 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
+from sklearn.model_selection import KFold
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestClassifier
@@ -167,8 +168,23 @@ def decisionTree(X_train, X_test, y_train, y_test):
 # TODO: Gaussian to train AI - Jeeves
 
 # TODO: Try with K-Fold Split - Abarna
+# Using 5-fold split
 
-
+# =============================================================================
+# kf = KFold(5)
+# fold = 1
+# for train_index, validate_index in kf.split(X,y):
+#     classifier.fit(X[train_index],y[train_index])
+#     y_test = y[validate_index]
+#     y_pred = classifier.predict(X[validate_index])
+#     #print(y_test)
+#     #print(y_pred)
+#     #print(f"Fold #{fold}, Training Size: {len(trainDF)}, Validation Size: {len(validateDF)}")
+#     print(f"Fold #{fold}, Training Size: {len(X[train_index])}, Validation Size: {len(X[validate_index])}")
+#     print('Accuracy: %.2f' % accuracy_score(y_test, y_pred))
+#     fold += 1
+# 
+# =============================================================================
 """
 # training the algorithm
 linearModel = LinearRegression()
