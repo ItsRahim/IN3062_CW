@@ -6,7 +6,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, confusion_matrix
-#from imblearn.over_sampling import SMOTE
+from imblearn.over_sampling import SMOTE
 from sklearn.model_selection import KFold
 from sklearn.metrics import accuracy_score
 import matplotlib.pyplot as plt
@@ -48,7 +48,7 @@ df.to_csv('stroke_clean_data.csv', encoding='utf-8', index=False)
 stats = df.describe()
 print(stats)
 
-#over_sampling = SMOTE()
+over_sampling = SMOTE()
 
 X = df[['gender', 'age', 'hypertension',
         'heart_disease', 'ever_married', 'Residence_type', 'avg_glucose_level', 'bmi', 'smoking_status']]
@@ -59,16 +59,17 @@ variety = y
 # splitting the dataset into training and testing data
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, train_size=1/3, random_state=42)
-#X_train_smote, y_train_smote = over_sampling.fit_resample(X_train, y_train)
+X_train_smote, y_train_smote = over_sampling.fit_resample(X_train, y_train)
 
 
-decision_tree = DecisionTreeClassifier(criterion = 'entropy')
+decision_tree = DecisionTreeClassifier(criterion='entropy')
 
-decision_tree.fit(X_train,y_train)
+decision_tree.fit(X_train, y_train)
 
 y_pred = decision_tree.predict(X_test)
 
 accuracy = accuracy_score(y_test, y_pred)
+
 
 def plot_confusion_matrix(cm, names, title='Confusion matrix', cmap=plt.cm.Blues):
     plt.imshow(cm, interpolation='nearest', cmap=cmap)
@@ -80,7 +81,8 @@ def plot_confusion_matrix(cm, names, title='Confusion matrix', cmap=plt.cm.Blues
     plt.tight_layout()
     plt.ylabel('True label')
     plt.xlabel('Predicted label')
-    
+
+
 cm = confusion_matrix(y_test, y_pred)
 
 print('Accuracy: %.2f' % accuracy)
@@ -93,19 +95,21 @@ plot_confusion_matrix(cm, variety, title='')
 kf = KFold(5)
 
 fold = 1
-# The data is split five ways, for each fold, the 
+# The data is split five ways, for each fold, the
 # Perceptron is trained, tested and evaluated for accuracy
-for train_index, validate_index in kf.split(X,y):
-    decision_tree.fit(X[train_index],y[train_index])
+for train_index, validate_index in kf.split(X, y):
+    decision_tree.fit(X[train_index], y[train_index])
     y_test = y[validate_index]
     y_pred = decision_tree.predict(X[validate_index])
-    #print(y_test)
-    #print(y_pred)
-    #print(f"Fold #{fold}, Training Size: {len(trainDF)}, Validation Size: {len(validateDF)}")
-    print(f"Fold #{fold}, Training Size: {len(X[train_index])}, Validation Size: {len(X[validate_index])}")
+    # print(y_test)
+    # print(y_pred)
+    # print(f"Fold #{fold}, Training Size: {len(trainDF)}, Validation Size: {len(validateDF)}")
+    print(
+        f"Fold #{fold}, Training Size: {len(X[train_index])}, Validation Size: {len(X[validate_index])}")
     print('Accuracy: %.2f' % accuracy_score(y_test, y_pred))
     fold += 1
-        
+
+
 def randomForestClassifier(X_train, X_test, y_train, y_test):
     print("Random Forest Classifier")
     clf = RandomForestClassifier(n_estimators=100, criterion='gini')
@@ -113,6 +117,16 @@ def randomForestClassifier(X_train, X_test, y_train, y_test):
     y_pred = clf.predict(X_test)
     rfc = confusion_matrix(y_test, y_pred)
     print(rfc)
+    print(classification_report(y_test, y_pred))
+
+
+def decisionTree(X_train, X_test, y_train, y_test):
+    print("Decision Tree Classifier")
+    decisionTreeModel = DecisionTreeClassifier(criterion='entropy')
+    decisionTreeModel.fit(X_train, y_train)
+    y_pred = decisionTreeModel.predict(X_test)
+    dt = confusion_matrix(y_test, y_pred)
+    print(dt)
     print(classification_report(y_test, y_pred))
 
 
