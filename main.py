@@ -5,10 +5,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, confusion_matrix
-# commented for now
 #from imblearn.over_sampling import SMOTE
-#from imblearn import over_sampling
-
 
 df = pd.read_csv("stroke.csv")
 x = pd.DataFrame(df.groupby(['stroke'])['stroke'].count())
@@ -47,7 +44,8 @@ df.to_csv('stroke_clean_data.csv', encoding='utf-8', index=False)
 stats = df.describe()
 print(stats)
 
-# TODO: Smote to balance dataset - Rahim
+#over_sampling = SMOTE()
+
 X = df[['gender', 'age', 'hypertension',
         'heart_disease', 'ever_married', 'Residence_type', 'avg_glucose_level', 'bmi', 'smoking_status']]
 y = df['stroke']
@@ -55,6 +53,8 @@ y = df['stroke']
 # splitting the dataset into training and testing data
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, train_size=1/3, random_state=42)
+
+#X_train_smote, y_train_smote = over_sampling.fit_resample(X_train, y_train)
 
 
 def randomForestClassifier(X_train, X_test, y_train, y_test):
@@ -106,4 +106,4 @@ Since, we attend to use multiple indpenedent varibale to predict a dependent var
 """
 randomForestClassifier(X_train, X_test, y_train, y_test)
 decisionTree(X_train, X_test, y_train, y_test)
-logisticRegression(X_train, X_test, y_train, y_test)
+#logisticRegression(X_train, X_test, y_train, y_test)
