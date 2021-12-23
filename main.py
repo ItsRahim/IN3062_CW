@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
@@ -7,11 +8,10 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, confusion_matrix
-from imblearn.over_sampling import SMOTE
-from sklearn.model_selection import KFold
-from sklearn.metrics import accuracy_score
+#from imblearn.over_sampling import SMOTE
 from sklearn.naive_bayes import GaussianNB
-import matplotlib.pyplot as plt
+from sklearn.metrics import confusion_matrix
+from sklearn import metrics
 
 
 def randomForestClassifier(X_train, X_test, y_train, y_test):
@@ -19,7 +19,7 @@ def randomForestClassifier(X_train, X_test, y_train, y_test):
     clf = RandomForestClassifier(n_estimators=100, criterion='gini')
     clf.fit(X_train, y_train)
     y_pred = clf.predict(X_test)
-    rfc = confusion_matrix(y_test, y_pred)
+    rfc = metrics.confusion_matrix(y_test, y_pred)
     print(rfc)
     print(classification_report(y_test, y_pred))
 
@@ -32,12 +32,20 @@ def decisionTree(X_train, X_test, y_train, y_test):
     dt = confusion_matrix(y_test, y_pred)
     print(dt)
     print(classification_report(y_test, y_pred))
-
+    
 
 def logisticRegression(X_train, X_test, y_train, y_test):
     print("Logistic Regression")
-    logreg = LogisticRegression(max_iter=1000)
+    rng = np.random.RandomState(42)
+    x = 10 * rng.rand(50)
+    y = 2 * x - 1 + rng.randn(50)
+    plt.scatter(x, y);
+    logreg = LogisticRegression(fit_intercept=True)
+    X = x[:, np.newaxis]
+    X.shape
     logreg.fit(X_train, y_train)
+    logreg.coef_
+    logreg.intercept_
     y_pred = logreg.predict(X_test)
     cnf_matrix = confusion_matrix(y_test, y_pred)
     print(cnf_matrix)
@@ -45,7 +53,7 @@ def logisticRegression(X_train, X_test, y_train, y_test):
     
 def linearRegression(X_train, X_test, y_train, y_test):
     print("Linear Regression")
-    linearModel = LinearRegression()
+    linearModel = LogisticRegression(fit_intercept=True)
     linearModel.fit(X_train, y_train)
     y_pred = linearModel.predict(X_test)
     cnf_matrix = confusion_matrix(y_test, y_pred)
@@ -97,19 +105,18 @@ df.to_csv('stroke_clean_data.csv', encoding='utf-8', index=False)
 stats = df.describe()
 print(stats)
 
-over_sampling = SMOTE()
+#over_sampling = SMOTE()
 
 X = df[['gender', 'age', 'hypertension',
         'heart_disease', 'ever_married', 'Residence_type', 'avg_glucose_level', 'bmi', 'smoking_status']]
 y = df['stroke']
 
-variety = y
-
 #splitting the dataset into training and testing data
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, train_size=1/3, random_state=42)
-X_train_smote, y_train_smote = over_sampling.fit_resample(X_train, y_train)
+#X_train_smote, y_train_smote = over_sampling.fit_resample(X_train, y_train)
 
 randomForestClassifier(X_train, X_test, y_train, y_test)
 decisionTree(X_train, X_test, y_train, y_test)
 logisticRegression(X_train, X_test, y_train, y_test)
+#linearRegression(X_train, X_test, y_train, y_test)
