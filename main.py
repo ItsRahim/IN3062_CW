@@ -10,6 +10,7 @@ from sklearn.metrics import classification_report, confusion_matrix
 from imblearn.over_sampling import SMOTE
 from sklearn.model_selection import KFold
 from sklearn.metrics import accuracy_score
+from sklearn.naive_bayes import GaussianNB
 import matplotlib.pyplot as plt
 
 
@@ -50,7 +51,14 @@ def linearRegression(X_train, X_test, y_train, y_test):
     cnf_matrix = confusion_matrix(y_test, y_pred)
     print(cnf_matrix)
     print(classification_report(y_test, y_pred))
-
+    
+def naiveBayes(X_train, X_test, y_train, y_test):
+    gaussian = GaussianNB()
+    gaussian.fit(X_train, y_train)
+    y_pred = gaussian.predict(X_test)
+    gaussian_matrix = confusion_matrix(y_test, y_pred)
+    print(gaussian_matrix)
+    print(classification_report(y_test, y_pred))
 
 df = pd.read_csv("stroke.csv")
 x = pd.DataFrame(df.groupby(['stroke'])['stroke'].count())
