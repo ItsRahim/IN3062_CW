@@ -11,31 +11,32 @@ from sklearn.metrics import classification_report, confusion_matrix
 #from imblearn.over_sampling import SMOTE
 from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import confusion_matrix
-from sklearn import metrics
 
 
 def randomForestClassifier(X_train, X_test, y_train, y_test):
-    print("Random Forest Classifier")
+    print("Random Forest Classifier\n")
     clf = RandomForestClassifier(n_estimators=100, criterion='gini')
     clf.fit(X_train, y_train)
     y_pred = clf.predict(X_test)
-    rfc = metrics.confusion_matrix(y_test, y_pred)
+    rfc = confusion_matrix(y_test, y_pred)
+    print("Confusion Matrix")
     print(rfc)
     print(classification_report(y_test, y_pred))
 
 
 def decisionTree(X_train, X_test, y_train, y_test):
-    print("Decision Tree Classifier")
+    print("Decision Tree Classifier\n")
     decisionTreeModel = DecisionTreeClassifier(criterion='gini')
     decisionTreeModel.fit(X_train, y_train)
     y_pred = decisionTreeModel.predict(X_test)
     dt = confusion_matrix(y_test, y_pred)
+    print("Confusion Matrix")
     print(dt)
     print(classification_report(y_test, y_pred))
     
 
 def logisticRegression(X_train, X_test, y_train, y_test):
-    print("Logistic Regression")
+    print("Logistic Regression\n")
     rng = np.random.RandomState(42)
     x = 10 * rng.rand(50)
     y = 2 * x - 1 + rng.randn(50)
@@ -48,23 +49,27 @@ def logisticRegression(X_train, X_test, y_train, y_test):
     logreg.intercept_
     y_pred = logreg.predict(X_test)
     cnf_matrix = confusion_matrix(y_test, y_pred)
+    print("Confusion Matrix")
     print(cnf_matrix)
     print(classification_report(y_test, y_pred))
     
 def linearRegression(X_train, X_test, y_train, y_test):
-    print("Linear Regression")
+    print("Linear Regression\n")
     linearModel = LogisticRegression(fit_intercept=True)
     linearModel.fit(X_train, y_train)
     y_pred = linearModel.predict(X_test)
     cnf_matrix = confusion_matrix(y_test, y_pred)
+    print("Confusion Matrix\n")
     print(cnf_matrix)
     print(classification_report(y_test, y_pred))
     
 def naiveBayes(X_train, X_test, y_train, y_test):
+    print("Naive Bayes\n")
     gaussian = GaussianNB()
     gaussian.fit(X_train, y_train)
     y_pred = gaussian.predict(X_test)
     gaussian_matrix = confusion_matrix(y_test, y_pred)
+    print("Confusion Matrix\n")
     print(gaussian_matrix)
     print(classification_report(y_test, y_pred))
 
@@ -119,4 +124,5 @@ X_train, X_test, y_train, y_test = train_test_split(
 randomForestClassifier(X_train, X_test, y_train, y_test)
 decisionTree(X_train, X_test, y_train, y_test)
 logisticRegression(X_train, X_test, y_train, y_test)
+naiveBayes(X_train, X_test, y_train, y_test)
 #linearRegression(X_train, X_test, y_train, y_test)
