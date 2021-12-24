@@ -11,17 +11,25 @@ from sklearn.metrics import classification_report, confusion_matrix
 #from imblearn.over_sampling import SMOTE
 from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import confusion_matrix
+from sklearn.metrics import plot_confusion_matrix
 
 
 def randomForestClassifier(X_train, X_test, y_train, y_test):
     print("Random Forest Classifier\n")
-    clf = RandomForestClassifier(n_estimators=100, criterion='gini')
+    clf = RandomForestClassifier(n_estimators=1500, criterion='gini')
     clf.fit(X_train, y_train)
     y_pred = clf.predict(X_test)
     rfc = confusion_matrix(y_test, y_pred)
     print("Confusion Matrix")
     print(rfc)
     print(classification_report(y_test, y_pred))
+    matrix = plot_confusion_matrix(clf, X_test, y_test, cmap=plt.cm.Reds)
+    matrix.ax_.set_title("Logistic Regression")
+    plt.xlabel("Predicted Label")
+    plt.ylabel("True Label")
+    plt.gcf().axes[0].tick_params()
+    plt.gcf().axes[1].tick_params()
+    plt.show()
 
 
 def decisionTree(X_train, X_test, y_train, y_test):
@@ -33,6 +41,13 @@ def decisionTree(X_train, X_test, y_train, y_test):
     print("Confusion Matrix")
     print(dt)
     print(classification_report(y_test, y_pred))
+    matrix = plot_confusion_matrix(decisionTreeModel, X_test, y_test, cmap=plt.cm.Reds)
+    matrix.ax_.set_title("Logistic Regression")
+    plt.xlabel("Predicted Label")
+    plt.ylabel("True Label")
+    plt.gcf().axes[0].tick_params()
+    plt.gcf().axes[1].tick_params()
+    plt.show()
 
 
 def logisticRegression(X_train, X_test, y_train, y_test):
@@ -44,7 +59,13 @@ def logisticRegression(X_train, X_test, y_train, y_test):
     print("Confusion Matrix")
     print(cnf_matrix)
     print(classification_report(y_test, y_pred))
-
+    matrix = plot_confusion_matrix(logreg, X_test, y_test, cmap=plt.cm.Reds)
+    matrix.ax_.set_title("Logistic Regression")
+    plt.xlabel("Predicted Label")
+    plt.ylabel("True Label")
+    plt.gcf().axes[0].tick_params()
+    plt.gcf().axes[1].tick_params()
+    plt.show()
 
 def linearRegression(X_train, X_test, y_train, y_test):
     print("Linear Regression\n")
@@ -56,7 +77,6 @@ def linearRegression(X_train, X_test, y_train, y_test):
     print(cnf_matrix)
     print(classification_report(y_test, y_pred))
 
-
 def naiveBayes(X_train, X_test, y_train, y_test):
     print("Naive Bayes\n")
     gaussian = GaussianNB()
@@ -66,6 +86,13 @@ def naiveBayes(X_train, X_test, y_train, y_test):
     print("Confusion Matrix\n")
     print(gaussian_matrix)
     print(classification_report(y_test, y_pred))
+    matrix = plot_confusion_matrix(gaussian, X_test, y_test, cmap=plt.cm.Reds)
+    matrix.ax_.set_title("Logistic Regression")
+    plt.xlabel("Predicted Label")
+    plt.ylabel("True Label")
+    plt.gcf().axes[0].tick_params()
+    plt.gcf().axes[1].tick_params()
+    plt.show()
 
 
 df = pd.read_csv("stroke.csv")
