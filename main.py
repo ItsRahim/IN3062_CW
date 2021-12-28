@@ -13,9 +13,19 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import plot_confusion_matrix
 
+"""
+Below are functions created which take in test and training data as paramenters from the train test split.
+These functions are used to:
+-create and train machine learning models
+-create a report regarding accuracy of the models
+-visualise the predictions made by the model via the confusion matrix
+"""
+
 
 def randomForestClassifier(X_train, X_test, y_train, y_test):
     print("Random Forest Classifier\n")
+
+    # creating the machine learning model
     clf = RandomForestClassifier(n_estimators=1500, criterion='gini')
     clf.fit(X_train, y_train)
     y_pred = clf.predict(X_test)
@@ -23,6 +33,8 @@ def randomForestClassifier(X_train, X_test, y_train, y_test):
     print("Confusion Matrix")
     print(rfc)
     print(classification_report(y_test, y_pred))
+
+    # creating confusion matrix
     matrix = plot_confusion_matrix(clf, X_test, y_test, cmap=plt.cm.Reds)
     matrix.ax_.set_title("Random Forest Classifier")
     plt.xlabel("Predicted Label")
